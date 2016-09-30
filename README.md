@@ -2,4 +2,4 @@
 A javascript paint race game.
 
 # Live version
-[http://studiotenfour.com/splat](//studiotenfour.com/splat)
+[http://huehero.timganter.io](//huehero.timganter.io)
