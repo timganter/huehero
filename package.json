@@ -1,0 +1,22 @@
+{
+  "name": "HueHero",
+  "version": "1.0.0",
+  "description": "A tiny javascript game inspired by the Nintendo™ game Splatoon™",
+  "main": "gulpfile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-add-src": "^0.2.0",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-concat": "^2.6.0",
+    "gulp-notify": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.3.2",
+    "gulp-uglify": "^2.0.0",
+    "gulp-sourcemaps": "^1.6.0"
+  },
+  "author": "Tim Ganter | timganter.io",
+  "license": "Apache-2.0"
+}

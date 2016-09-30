@@ -1,0 +1,52 @@
+.game {
+    float: left;
+    width: 80%;
+    margin-top: 2em;
+    position: relative;
+}
+
+.board {
+    background: linear-gradient(270deg, $board-color, Black, $board-color);
+    background-size: 400% 400%;
+    animation: pulse 7s infinite;
+    width: 40%;
+    margin: 0 auto;
+}
+
+@keyframes pulse { 
+    0%  { 
+        background-position: 0% 50%;
+    }
+    50% { 
+        background-position: 100% 50%;
+    }
+    100% { 
+        background-position: 0% 50%;
+    }
+}
+
+.row {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row;
+    justify-content: space-around;
+}
+
+.cell {
+    position: relative;
+    background: black;
+    margin: 1px;
+    flex: 1 0 auto;
+    height: auto;
+    -webkit-transition: 2s;
+    transition: 2s;
+}
+
+.cell:before {
+    content:'';
+    float:left;
+    padding-top:100%;
+}
