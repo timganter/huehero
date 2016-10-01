@@ -1,0 +1,92 @@
+/* ------------------------------------
+            Scoreboard
+------------------------------------ */
+.scoreboard {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10%;
+    background: black;
+    display: none;
+    box-shadow: 25px -25px 200px rgba(255, 255, 255, 1.0);
+}
+
+.scoreboard.show {
+    display: block;
+}
+
+/* ------------------------------------
+            Game clock
+------------------------------------ */
+
+.clock {
+    width: 100%;
+    text-align: center;
+    background: SeaGreen;
+    color: white;
+}
+
+.clock-warning {
+    animation: clock-warning 1s ease-in-out infinite;
+}
+
+.clock-stop {
+    background: Maroon;
+}
+
+.clock-time {
+    padding: 0.5em 1em;
+    overflow: hidden;
+}
+
+.clock-time span {
+    display: inline-block;
+    animation: clock-time 1s;
+}
+
+@keyframes clock-time {
+    0% { opacity: 0; transform: translate(0, -100%); }
+    50% { opacity: 1; transform: translate(0, 0); }
+    100% { opacity: 0; transform: translate(0, 100%); }
+}
+
+@keyframes clock-warning {
+    0% { background: SeaGreen; }
+    50% { background: red; }
+    100% { background: SeaGreen; }
+}
+
+/* ------------------------------------
+            Scoreboard
+------------------------------------ */
+
+.scoreboard .character {
+    display: inline-block;
+    position: relative;
+    animation: none;
+    width: 20px;
+    height: 20px;
+}
+
+.score {
+    padding: 0.5em 1em;
+}
+
+.player-score {
+    color: $player-color;
+    margin-bottom: 0.25em;
+}
+
+.villan-score {
+    color: $villan-painted;
+}
+
+.scoreboard .villan .mouth {
+    border-width: 2px;
+}
+
+.winner {
+    font-weight: bold;
+    font-size: 1em;
+    color: white;
+}

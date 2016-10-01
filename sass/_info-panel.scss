@@ -1,92 +1,83 @@
 /* ------------------------------------
-            Info panel
+            Instructions
 ------------------------------------ */
-.info-panel {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 10%;
+
+.instructions {
+    color: white;
+    float: left;
+    width: 20%;
+    height: 100%;
     background: black;
-    display: none;
-    box-shadow: 25px -25px 200px rgba(255, 255, 255, 1.0);
 }
 
-.info-panel.show {
-    display: block;
-}
-
-/* ------------------------------------
-            Game clock
------------------------------------- */
-
-.clock {
+.instructions h1 {
+    padding: 0.25em 0;
+    margin: 0;
     width: 100%;
+    background: $player-color;
+    color: black;
     text-align: center;
-    background: SeaGreen;
-    color: white;
 }
 
-.clock-warning {
-    animation: clock-warning 1s ease-in-out infinite;
-}
-
-.clock-stop {
-    background: Maroon;
-}
-
-.clock-time {
-    padding: 0.5em 1em;
-    overflow: hidden;
-}
-
-.clock-time span {
-    display: inline-block;
-    animation: clock-time 1s;
-}
-
-@keyframes clock-time {
-    0% { opacity: 0; transform: translate(0, -100%); }
-    50% { opacity: 1; transform: translate(0, 0); }
-    100% { opacity: 0; transform: translate(0, 100%); }
-}
-
-@keyframes clock-warning {
-    0% { background: SeaGreen; }
-    50% { background: red; }
-    100% { background: SeaGreen; }
+.instructions p,
+.instructions h2,
+.instructions .btn {
+    margin: 20px;
 }
 
 /* ------------------------------------
-            Score
+            Start Button
 ------------------------------------ */
 
-.score {
-    padding: 0.5em 1em;
+.btn {
+    font-size: 20px;
+    border-radius: 4px;
+    border: none;
+    padding: 0.25em 0.5em;
+    text-transform: uppercase;
+    opacity: 1;
+    transition: background-color 0.5s ease;
 }
 
-.player-score {
-    color: $player-color;
-    margin-bottom: 0.25em;
+.btn:hover {
+    cursor: pointer;
+    background-color: MediumSeaGreen;
 }
 
-.villan-score {
-    color: $villan-painted;
-}
-
-.info-panel .character {
-    display: inline-block;
-    position: relative;
-    animation: none;
-    width: 20px;
-    height: 20px;
-}
-
-.info-panel .villan .mouth {
-    border-width: 2px;
-}
-
-.winner {
-    font-weight: bold;
-    font-size: 1em;
+.btn-start {
     color: white;
+    background: SeaGreen;
+}
+
+.btn.disabled {
+    background-color: SeaGreen;
+    opacity: 0.3;
+}
+
+.btn.disabled:hover {
+    cursor: default;
+}
+
+/* ------------------------------------
+                Credits
+------------------------------------ */
+
+.credits {
+    list-style: none;
+    margin: 20px;
+    padding: 0;
+    font-size: 0.75em;
+    
+    li { 
+        display: inline-block;
+        &:last-child:before { content: " | " }
+    }
+
+    a {
+        &:hover { color: DodgerBlue; }
+    }
+}
+
+.credits, .credits a {
+    color: #666;
 }
