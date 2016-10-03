@@ -1,6 +1,6 @@
-function Game(player, villan, timeLimit) {
+function Game(player, npc, timeLimit) {
     this.player = new Player(new Character(player));
-    this.villan = new Villan(new Character(villan));
+    this.npc = new Npc(new Character(npc));
 
     this.cells = document.getElementsByClassName("cell");
     
@@ -40,7 +40,7 @@ Game.prototype.start = function() {
     this.startClock();
 
     this.player.play();
-    this.villan.play();
+    this.npc.play();
 };
 
 Game.prototype.startClock = function() {
@@ -84,32 +84,32 @@ Game.prototype.stopClock = function() {
 
 Game.prototype.gameOver = function() {
     var player = this.player;
-    var villan = this.villan;
+    var npc = this.npc;
 
     player.stop();
-    villan.stop();
+    npc.stop();
     
     player.updateScore();
-    villan.updateScore();
+    npc.updateScore();
 
     var playerScore = player.currentScore();
-    var villanScore = villan.currentScore();
+    var npcScore = npc.currentScore();
 
-    if (playerScore > villanScore) {
+    if (playerScore > npcScore) {
         this.winner.innerHTML = "You win!";
         this.winningCharacter(this.player.character);
         this.mouth("player-mouth", "smile");
-        this.mouth("villan-mouth", "frown");
+        this.mouth("npc-mouth", "frown");
     }
 
-    if (playerScore < villanScore) {
+    if (playerScore < npcScore) {
         this.winner.innerHTML = "You lose!";
         this.mouth("player-mouth", "frown");
-        this.winningCharacter(this.villan.character);
-        this.mouth("villan-mouth", "smile");
+        this.winningCharacter(this.npc.character);
+        this.mouth("npc-mouth", "smile");
     }
 
-    if (playerScore === villanScore) {
+    if (playerScore === npcScore) {
         this.winner.innerHTML = "It's a tie!";
     }
 
@@ -127,9 +127,9 @@ Game.prototype.reset = function() {
 Game.prototype.resetCharacters = function() {
     this.winningCharacter(false);
     this.mouth("player-mouth", false);
-    this.mouth("villan-mouth", false);
+    this.mouth("npc-mouth", false);
     this.cells[0].appendChild(this.player.character.element);
-    this.cells[99].appendChild(this.villan.character.element);
+    this.cells[99].appendChild(this.npc.character.element);
 };
 
 Game.prototype.resetBoard = function() {
@@ -141,7 +141,7 @@ Game.prototype.resetBoard = function() {
 
 Game.prototype.resetScore = function() {
     this.player.updateScore();
-    this.villan.updateScore();
+    this.npc.updateScore();
     this.winner.innerHTML = "";
 };
 
