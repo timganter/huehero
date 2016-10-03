@@ -7,15 +7,27 @@ function Player(Character) {
 Player.prototype.play = function() {
     var player = this;
     var controls = player.controls;
+    var longPress = true;
 
     window.onkeydown = function(e) {
-        if (controls.indexOf(e.keyCode) > -1) {
-            e.preventDefault();
+        if (controls.indexOf(e.keyCode) > -1) { // == If an arrowkey was pressed.
+            e.preventDefault(); // == Prevent default behavior.
+
+            if (! longPress) { // == Disable long press.
+                return e.keyCode;
+            }
+
+            longPress = false;
             player.character.move.direction(e.keyCode);
             player.character.painter.paint();
             player.updateScore();
         }
     };
+
+    // == Turn long press back on.
+    window.onkeyup = function(e) {
+        longPress = true;
+    }
 };
 
 Player.prototype.currentScore = function() {
