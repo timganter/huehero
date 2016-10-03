@@ -56,7 +56,7 @@
     z-index: 10;
     background: $player-color;
     border-radius: 100%;
-    animation: player 1s ease-in-out infinite;
+    animation: player 1.1s ease-in-out infinite;
 }
 
 .painted {
@@ -99,7 +99,7 @@
     width: 60%;
     height: 60%;
     background: $villan-color;
-    animation: villan 1s ease-in-out infinite;
+    animation: villan 1.1s ease-in-out infinite;
 }
 
 .villan-painted {
