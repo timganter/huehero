@@ -1,6 +1,5 @@
 function Player(Character) {
     this.character = Character;
-    this.arrowKeys = [38, 39, 40, 37];
     this.score = document.getElementById("player-score");
     this.controls = [38, 39, 40, 37]; // == Arrow keys
 }
