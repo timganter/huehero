@@ -1,34 +1,60 @@
 function Player(Character) {
     this.character = Character;
     this.score = document.getElementById("player-score");
-    this.controls = [38, 39, 40, 37]; // == Arrow keys
+    this.movement = {
+            keys: [38, 39, 40, 37], // == Arrow keys
+            handlers: []
+        };
 }
 
 Player.prototype.play = function() {
-    var player = this;
-    var controls = player.controls;
-    var longPress = true;
-
-    window.onkeydown = function(e) {
-        if (controls.indexOf(e.keyCode) > -1) { // == If an arrowkey was pressed.
-            e.preventDefault(); // == Prevent default behavior.
-
-            if (! longPress) { // == Disable long press.
-                return e.keyCode;
-            }
-
-            longPress = false;
-            player.character.move.direction(e.keyCode);
-            player.character.painter.paint();
-            player.updateScore();
-        }
-    };
-
-    // == Turn long press back on.
-    window.onkeyup = function(e) {
-        longPress = true;
-    }
+    this.enableMovement();
 };
+
+Player.prototype.enableMovement = function() {
+    var player = this;
+    var longPress = true;
+    var movement = this.movement;
+
+    movement.handlers.push(
+        EventHandler.addListener("keydown", function(e) {
+            // == If an arrowkey was pressed.
+            if (movement.keys.indexOf(e.keyCode) > -1) { 
+                // == Prevent default behavior.
+                e.preventDefault();
+
+                if (! longPress) {
+                    return e.keyCode;
+                }
+
+                // == Disable long press.
+                longPress = false;
+
+                player.character.move.direction(e.keyCode);
+                player.character.painter.paint();
+                player.updateScore();
+            }
+        }, window)
+    );
+
+    movement.handlers.push(
+        EventHandler.addListener("keyup", function(e) {
+            // == If an arrowkey was released.
+            if (movement.keys.indexOf(e.keyCode) > -1) { 
+                // == Turn long press back on.
+                longPress = true;
+            }
+        }, window)
+    );
+}
+
+Player.prototype.disableMovement = function () {
+    var numOfMovementHandlers = this.movement.handlers.length;
+
+    for(i=0; i < numOfMovementHandlers; i++) {
+        EventHandler.removeListener(this.movement.handlers[i]);
+    }
+}
 
 Player.prototype.currentScore = function() {
     return document.getElementsByClassName("painted").length;
@@ -39,11 +65,5 @@ Player.prototype.updateScore = function() {
 }
 
 Player.prototype.stop = function() {
-    controls = this.controls;
-    
-    window.onkeydown = function(e) {
-        if (controls.indexOf(e.keyCode) > -1) {
-            return true;
-        }
-    }
+    this.disableMovement();
 }
