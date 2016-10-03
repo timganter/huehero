@@ -5,7 +5,7 @@ var EventHandler = function () {
         addListener: function(event, handler, element) {
             id++;
             element.addEventListener(event, handler);
-
+            
             listeners[id] = {
                 event: event,
                 handler: handler,
