@@ -16,6 +16,7 @@ Player.prototype.enableMovement = function() {
     var longPress = true;
     var movement = this.movement;
 
+    // == Add event listener for arrow key down.
     movement.handlers.push(
         EventHandler.addListener("keydown", function(e) {
             // == If an arrowkey was pressed.
@@ -23,6 +24,7 @@ Player.prototype.enableMovement = function() {
                 // == Prevent default behavior.
                 e.preventDefault();
 
+                // == Don't move player if holding down arrow key.
                 if (! longPress) {
                     return e.keyCode;
                 }
@@ -30,13 +32,19 @@ Player.prototype.enableMovement = function() {
                 // == Disable long press.
                 longPress = false;
 
+                // == Move the player.
                 player.character.move.direction(e.keyCode);
+                
+                // == Paint the square.
                 player.character.painter.paint();
+
+                // == Update the score.
                 player.updateScore();
             }
         }, window)
     );
 
+    // == Add event listener for arrow key up.
     movement.handlers.push(
         EventHandler.addListener("keyup", function(e) {
             // == If an arrowkey was released.
@@ -51,6 +59,7 @@ Player.prototype.enableMovement = function() {
 Player.prototype.disableMovement = function () {
     var numOfMovementHandlers = this.movement.handlers.length;
 
+    // == Remove all movement event listeners.
     for(i=0; i < numOfMovementHandlers; i++) {
         EventHandler.removeListener(this.movement.handlers[i]);
     }
