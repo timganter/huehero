@@ -14,24 +14,49 @@ function Game(player, npc, timeLimit) {
 
     this.startButton = {
         element: document.getElementById("start-button"),
-        handler: this.enableButton(document.getElementById("start-button"))
+        keys: [32, 13],
+        handlers: []
     };
 
     this.winner = document.getElementById("winner");
+
+    this.enableStartButton();
 }
 
-Game.prototype.enableButton = function(button) {
+Game.prototype.enableStartButton = function(button) {
     game = this;
-    Util.removeClass(button, "disabled");
+    startButton = this.startButton;
+    Util.removeClass(startButton.element, "disabled");
 
-    return EventHandler.addListener("click", function() { 
-        game.start();
-    }, button);
+    // == Add click event listener.
+    startButton.handlers.push(
+        EventHandler.addListener( "click", function() {
+            game.start();
+        }, startButton.element)
+    );
+
+    // Add keydown event listener.
+    startButton.handlers.push(
+        EventHandler.addListener("keydown", function(e) {
+            if (startButton.keys.indexOf(e.keyCode) > -1) {
+                e.preventDefault();
+                game.start();                    
+            }
+        }, window)
+    );
+
 };
 
 Game.prototype.disableButton = function(button) {
-    button.element.className += " disabled";
-    return EventHandler.removeListener(button.handler);
+    var startButton = this.startButton;
+    var numOfStartButtonHandlers = startButton.handlers.length;
+    
+    startButton.element.className += " disabled";
+    
+    // == Remove all startButton event listeners.
+    for(i=0; i < numOfStartButtonHandlers; i++) {
+        EventHandler.removeListener(startButton.handlers[i]);
+    }
 };
 
 Game.prototype.start = function() {
@@ -113,7 +138,7 @@ Game.prototype.gameOver = function() {
         this.winner.innerHTML = "It's a tie!";
     }
 
-    this.startButton.handler = this.enableButton(this.startButton.element);
+    this.enableStartButton();
 };
 
 Game.prototype.reset = function() {
