@@ -9,11 +9,11 @@ Vector.prototype.north = function() {
     var vectorIndex = Util.childIndex(vectorCell, vectorRowChildren);
     var previousRow = vectorRow.previousElementSibling;
 
-    // == First row.
     if (previousRow) {
         return previousRow.children[vectorIndex];    
     }
 
+    // == First row.
     return null;
 }
 
@@ -28,11 +28,11 @@ Vector.prototype.south = function() {
     var vectorIndex = Util.childIndex(vectorCell, vectorRowChildren);
     var nextRow = vectorRow.nextElementSibling;
 
-    // == Last row.
     if (nextRow) {
         return nextRow.children[vectorIndex];    
     }
 
+    // == Last row.
     return null;
 }
 

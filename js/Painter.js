@@ -14,7 +14,7 @@ Painter.prototype.paint = function() {
 
 Painter.prototype.removePaint = function(paintClass) {
     Util.removeClass(this.element.parentElement, paintClass);
-}
+};
 
 Painter.prototype.npcPaint = function() {
     this.removePaint(this.paintClass);
@@ -22,4 +22,16 @@ Painter.prototype.npcPaint = function() {
     if (Util.doesntHaveClass(this.element.parentElement, this.npcPaintClass)) {
         this.element.parentElement.className += ' ' + this.npcPaintClass;
     }
-}
+};
+
+Painter.prototype.isPaintable = function (element, character) {
+    if (character instanceof Npc) {
+        var paint = this.npcPaintClass;
+    }
+
+    if (character instanceof Player) {
+        var paint = this.paintClass;
+    }
+
+    return Util.doesntHaveClass(element, paint);
+};
