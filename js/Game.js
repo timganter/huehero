@@ -56,7 +56,7 @@ Game.prototype.startCountdown = function() {
 
 Game.prototype.runCountdown = function() {   
     this.countdown.timeLeft -= 1000; 
-    if (this.countdown.timeLeft === 0) { 
+    if (this.countdown.timeLeft === 0) {
         this.announcer.innerHTML = '<span class="center countdown">Go!</span>';
         this.start();
     } else {
