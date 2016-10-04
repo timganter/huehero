@@ -22,7 +22,7 @@ Npc.prototype.move = function() {
     var direction = this.look(this.character.element);
 
     if (direction === false) {
-        return this.teleport();
+        return this.moveRandom();
     }
 
     this.character.move.direction(direction);
@@ -68,15 +68,12 @@ Npc.prototype.getVector = function(currentVector, direction) {
     }
 };
 
-Npc.prototype.teleport = function() {
-    var teleport = 4;
+Npc.prototype.moveRandom = function() {
     var randomDirection = null;
     var npc = this;
 
-    for(var i=0; i < teleport; i++) {
-        randomDirection = Util.randomItem(npc.arrowKeys);
-        npc.character.move.direction(randomDirection);
-    }
+    randomDirection = Util.randomItem(npc.arrowKeys);
+    npc.character.move.direction(randomDirection);
 
     return true;
 };
