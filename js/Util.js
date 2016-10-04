@@ -47,7 +47,13 @@ var Util = function() {
         },
 
         randomNumber: function(num) {
-            return Math.floor(Math.random() * num);
+            var number = Math.floor(Math.random() * num);
+            
+            if (number === 0) {
+                return 1;
+            }
+
+            return number;
         }
     }
 }();
