@@ -33,7 +33,7 @@ Npc.prototype.look = function(element) {
     var numOfDirections = this.arrowKeys.length;
     var arrowKeys = Util.shuffleArray(this.arrowKeys);
 
-    for(i=0; i < numOfDirections; i++) {
+    for(var i=0; i < numOfDirections; i++) {
         if (this.isPaintable(element, arrowKeys[i])) {
             return arrowKeys[i];
         }
@@ -74,7 +74,7 @@ Npc.prototype.teleport = function() {
     var randomDirection = null;
     var npc = this;
 
-    for(i=0; i < teleport; i++) {
+    for(var i=0; i < teleport; i++) {
         randomDirection = Util.randomItem(npc.arrowKeys);
         npc.character.move.direction(randomDirection);
     }
