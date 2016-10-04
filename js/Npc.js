@@ -4,7 +4,7 @@ function Npc(Character) {
     this.directions = ["north", "east", "south", "west"];
     this.arrowKeys = [38, 39, 40, 37];
 
-    this.speed = 150; // == in milliseconds
+    this.speed = 130; // == in milliseconds
     this.score = document.getElementById("npc-score");
     this.playing = null;
 }
