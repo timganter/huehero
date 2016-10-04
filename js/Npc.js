@@ -75,7 +75,7 @@ Npc.prototype.teleport = function() {
     var npc = this;
 
     for(i=0; i < teleport; i++) {
-        randomDirection = Util.randomElement(npc.arrowKeys);
+        randomDirection = Util.randomItem(npc.arrowKeys);
         npc.character.move.direction(randomDirection);
     }
 

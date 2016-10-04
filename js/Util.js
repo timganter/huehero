@@ -20,8 +20,8 @@ var Util = function() {
             return ! this.hasClass(element, className);
         },
 
-        // == Get a random element from an array.
-        randomElement: function(array) {
+        // == Get a random item from an array.
+        randomItem: function(array) {
             return array[Math.floor(Math.random() * array.length)];
         },
 
