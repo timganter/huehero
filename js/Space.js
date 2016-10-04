@@ -12,23 +12,25 @@ function Space() {
 }
 
 Space.prototype.make = function() {
-    var numberOfStars = this.numberOfStars;
-    var numberOfGalaxies = this.numberOfGalaxies;
-    
+    var Space = this;
+    var numberOfStars = Space.numberOfStars;
+    var numberOfGalaxies = Space.numberOfGalaxies;
+
     for(var i=0; i < numberOfStars; i++) {
-        this.star();
+        Space.star();
     }    
 
     for(var i=0; i < numberOfGalaxies; i++) {
-        this.galaxy();
+        Space.galaxy();
     }
 };
 
 Space.prototype.star = function(x=null, y=null) {
-    var ctx = this.ctx;
-    var canvas = this.canvas;
+    var Space = this;
+    var ctx = Space.ctx;
+    var canvas = Space.canvas;
 
-    var r = Util.randomNumber(this.maxStarSize);
+    var r = Util.randomNumber(Space.maxStarSize);
 
     if (x === null) {
         var x = Util.randomNumber(canvas.width);    
@@ -47,21 +49,23 @@ Space.prototype.star = function(x=null, y=null) {
 };
 
 Space.prototype.galaxy = function() {
-    var x = Util.randomNumber(this.canvas.width);
-    var y = Util.randomNumber(this.canvas.height);
-    var xRad = Util.randomNumber(this.maxGalaxySize.xRad);
-    var yRad = Util.randomNumber(this.maxGalaxySize.yRad);
+    var Space = this;
+    var x = Util.randomNumber(Space.canvas.width);
+    var y = Util.randomNumber(Space.canvas.height);
+    var xRad = Util.randomNumber(Space.maxGalaxySize.xRad);
+    var yRad = Util.randomNumber(Space.maxGalaxySize.yRad);
 
-    this.galaxyStars(x, y, xRad, yRad);
+    Space.galaxyStars(x, y, xRad, yRad);
 };
 
 Space.prototype.galaxyStars = function(x, y, xRad, yRad) {
-    var ctx = this.ctx;
+    var Space = this;
+    var ctx = Space.ctx;
     var xGalaxyCenter = x;
     var yGalaxyCenter = y;
     var xAmount, yAmount;
     
-    for(var i=0; i < this.starsPerGalaxy; i++) {
+    for(var i=0; i < Space.starsPerGalaxy; i++) {
         xAmount = Util.randomNumber(xRad);
         if (Util.randomNumber(2) === 0) { xAmount = -Math.abs(xAmount); }
         x = (xGalaxyCenter + xAmount * yRad / yAmount) / Math.tan(xRad);
@@ -71,6 +75,6 @@ Space.prototype.galaxyStars = function(x, y, xRad, yRad) {
         y = (yGalaxyCenter + yAmount * xRad / xAmount) / Math.tan(yRad);
         
         ctx.moveTo(x, y);
-        this.star(x, y);
+        Space.star(x, y);
     }
 };

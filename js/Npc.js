@@ -3,37 +3,44 @@ function Npc(Character) {
     this.vector = new Vector;
     this.arrowKeys = [38, 39, 40, 37];
 
-    this.speed = 150; // == in milliseconds
+    this.speed = 105; // == in milliseconds
     this.score = document.getElementById("npc-score");
     this.playing = null;
 }
 
 Npc.prototype.play = function() {
-    var npc = this;
+    var Npc = this;
 
-    npc.playing = setInterval(function() {
-        npc.move();
-        npc.character.painter.npcPaint();
-        npc.updateScore();
-    }, npc.speed);
+    Npc.playing = setInterval(function() {
+        Npc.move();
+        Npc.character.painter.npcPaint();
+        Npc.updateScore();
+    }, Npc.speed);
 };
 
 Npc.prototype.move = function() {
-    var direction = this.look(this.character.element);
+    var Npc = this;
+
+    var direction = Npc.look(Npc.character.element);
 
     if (direction === false) {
-        return this.moveRandom();
+        Npc.moveRandom();
     }
 
-    this.character.move.direction(direction);
+    else {
+        Npc.character.move.direction(direction);    
+    }
 };
 
 Npc.prototype.look = function(element) {
-    var numOfDirections = this.arrowKeys.length;
-    var arrowKeys = Util.shuffleArray(this.arrowKeys);
+    var Npc = this;
+    var numOfDirections = Npc.arrowKeys.length;
+    var arrowKeys = Util.shuffleArray(Npc.arrowKeys);
 
     for(var i=0; i < numOfDirections; i++) {
-        if (this.isPaintable(element, arrowKeys[i])) {
+        var isPaintable = Npc.isPaintable(element, arrowKeys[i]);
+
+        if (isPaintable) {
             return arrowKeys[i];
         }
     }
@@ -42,11 +49,12 @@ Npc.prototype.look = function(element) {
 };
 
 Npc.prototype.isPaintable = function(currentLocationElement, direction) {
+    var Npc = this;
     var currentVector = new Vector(currentLocationElement);
-    var newVector = this.getVector(currentVector, direction);
+    var newVector = Npc.getVector(currentVector, direction);
 
     if (newVector) {
-        return this.character.painter.isPaintable(newVector, this);
+        return Npc.character.painter.isPaintable(newVector, Npc);
     }
 
     return false;
@@ -63,19 +71,15 @@ Npc.prototype.getVector = function(currentVector, direction) {
             return currentVector.south();
         case 37: 
             return currentVector.west();
-        default:
-            return false;
     }
 };
 
 Npc.prototype.moveRandom = function() {
     var randomDirection = null;
-    var npc = this;
+    var Npc = this;
 
-    randomDirection = Util.randomItem(npc.arrowKeys);
-    npc.character.move.direction(randomDirection);
-
-    return true;
+    randomDirection = Util.randomItem(Npc.arrowKeys);
+    Npc.character.move.direction(randomDirection);
 };
 
 Npc.prototype.currentScore = function() {
@@ -83,9 +87,11 @@ Npc.prototype.currentScore = function() {
 };
 
 Npc.prototype.updateScore = function() {
-    this.score.innerHTML = this.currentScore();
+    var Npc = this;
+    Npc.score.innerHTML = Npc.currentScore();
 };
 
 Npc.prototype.stop = function() {
-    clearInterval(this.playing);
+    var Npc = this;
+    clearInterval(Npc.playing);
 };

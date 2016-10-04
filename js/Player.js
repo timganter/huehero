@@ -8,13 +8,14 @@ function Player(Character) {
 }
 
 Player.prototype.play = function() {
-    this.enableMovement();
+    var Player = this;
+    Player.enableMovement();
 };
 
 Player.prototype.enableMovement = function() {
-    var player = this;
+    var Player = this;
     var longPress = true;
-    var movement = this.movement;
+    var movement = Player.movement;
 
     // == Add event listener for arrow key down.
     movement.handlers.push(
@@ -33,13 +34,13 @@ Player.prototype.enableMovement = function() {
                 longPress = false;
 
                 // == Move the player.
-                player.character.move.direction(e.keyCode);
+                Player.character.move.direction(e.keyCode);
                 
                 // == Paint the square.
-                player.character.painter.paint();
+                Player.character.painter.paint();
 
                 // == Update the score.
-                player.updateScore();
+                Player.updateScore();
             }
         }, window)
     );
@@ -57,11 +58,12 @@ Player.prototype.enableMovement = function() {
 }
 
 Player.prototype.disableMovement = function () {
-    var numOfMovementHandlers = this.movement.handlers.length;
+    var Player = this;
+    var numOfMovementHandlers = Player.movement.handlers.length;
 
     // == Remove all movement event listeners.
     for(i=0; i < numOfMovementHandlers; i++) {
-        EventHandler.removeListener(this.movement.handlers[i]);
+        EventHandler.removeListener(Player.movement.handlers[i]);
     }
 }
 
@@ -70,9 +72,11 @@ Player.prototype.currentScore = function() {
 }
 
 Player.prototype.updateScore = function() {
-    this.score.innerHTML = this.currentScore();
+    var Player = this;
+    Player.score.innerHTML = Player.currentScore();
 }
 
 Player.prototype.stop = function() {
-    this.disableMovement();
+    var Player = this;
+    Player.disableMovement();
 }

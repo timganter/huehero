@@ -5,10 +5,12 @@ function Painter(element) {
 }
 
 Painter.prototype.paint = function() {
-    this.removePaint(this.npcPaintClass);
+    var Painter = this;
 
-    if (Util.doesntHaveClass(this.element.parentElement, this.paintClass)) {
-        this.element.parentElement.className += ' ' + this.paintClass;
+    Painter.removePaint(Painter.npcPaintClass);
+
+    if (Util.doesntHaveClass(Painter.element.parentElement, Painter.paintClass)) {
+        Painter.element.parentElement.className += ' ' + Painter.paintClass;
     }
 };
 
@@ -17,20 +19,25 @@ Painter.prototype.removePaint = function(paintClass) {
 };
 
 Painter.prototype.npcPaint = function() {
-    this.removePaint(this.paintClass);
+    var Painter = this;
 
-    if (Util.doesntHaveClass(this.element.parentElement, this.npcPaintClass)) {
-        this.element.parentElement.className += ' ' + this.npcPaintClass;
+    Painter.removePaint(Painter.paintClass);
+
+    if (Util.doesntHaveClass(Painter.element.parentElement, Painter.npcPaintClass)) {
+        Painter.element.parentElement.className += ' ' + Painter.npcPaintClass;
     }
 };
 
 Painter.prototype.isPaintable = function (element, character) {
+    var Painter = this;
+    var paint;
+
     if (character instanceof Npc) {
-        var paint = this.npcPaintClass;
+        paint = Painter.npcPaintClass;
     }
 
     if (character instanceof Player) {
-        var paint = this.paintClass;
+        paint = Painter.paintClass;
     }
 
     return Util.doesntHaveClass(element, paint);

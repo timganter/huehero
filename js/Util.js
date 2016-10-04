@@ -17,27 +17,31 @@ var Util = function() {
 
         // == Check if an element doesn't have a given class.
         doesntHaveClass: function(element, className) {
-            return ! this.hasClass(element, className);
+            var Util = this;
+            return ! Util.hasClass(element, className);
         },
 
         // == Get a random item from an array.
         randomItem: function(array) {
-            return array[this.randomNumber(array.length)];
+            var Util = this;
+            return array[Util.randomNumber(array.length)];
         },
 
         // == Remove a class from an element.
         removeClass: function(element, className) {
-            if (this.hasClass(element, className)) {
+            var Util = this;
+            if (Util.hasClass(element, className)) {
                 element.classList.remove(className);
             }
         },
 
         // == Shuffle an array. Taken from: http://stackoverflow.com/a/6274381
         shuffleArray: function(a) {
+            var Util = this;
             var j, x, i;
 
             for (i = a.length; i; i--) {
-                j = this.randomNumber(i);
+                j = Util.randomNumber(i);
                 x = a[i - 1];
                 a[i - 1] = a[j];
                 a[j] = x;

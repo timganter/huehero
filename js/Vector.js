@@ -3,7 +3,8 @@ function Vector(element) {
 }
 
 Vector.prototype.north = function() {
-    var vectorCell = this.element.parentElement;
+    var Vector = this;
+    var vectorCell = Vector.element.parentElement;
     var vectorRow = vectorCell.parentElement;
     var vectorRowChildren = vectorRow.children;
     var vectorIndex = Util.childIndex(vectorCell, vectorRowChildren);
@@ -18,11 +19,13 @@ Vector.prototype.north = function() {
 }
 
 Vector.prototype.east = function() {
-    return this.element.parentElement.nextElementSibling;
+    var Vector = this;
+    return Vector.element.parentElement.nextElementSibling;
 }
 
 Vector.prototype.south = function() {
-    var vectorCell = this.element.parentElement;
+    var Vector = this;
+    var vectorCell = Vector.element.parentElement;
     var vectorRow = vectorCell.parentElement;
     var vectorRowChildren = vectorRow.children;
     var vectorIndex = Util.childIndex(vectorCell, vectorRowChildren);
@@ -37,5 +40,6 @@ Vector.prototype.south = function() {
 }
 
 Vector.prototype.west = function() {
-    return this.element.parentElement.previousElementSibling;
+    var Vector = this;
+    return Vector.element.parentElement.previousElementSibling;
 }
