@@ -1,7 +1,6 @@
 function Npc(Character) {
     this.character = Character;
     this.vector = new Vector;
-    this.directions = ["north", "east", "south", "west"];
     this.arrowKeys = [38, 39, 40, 37];
 
     this.speed = 150; // == in milliseconds
