@@ -31,151 +31,174 @@ function Game(player, npc, timeLimit) {
 }
 
 Game.prototype.init = function() {
-    this.space.make();
-    this.enableStartButton();
+    var Game = this;
+
+    Game.space.make();
+    Game.enableStartButton();
 }
 
 Game.prototype.start = function() {    
-    this.startClock();
-    this.player.play();
-    this.npc.play();
+    var Game = this;
+
+    Game.startClock();
+    Game.player.play();
+    Game.npc.play();
 };
 
 Game.prototype.startCountdown = function() {
-    this.reset();
-    this.disableButton(this.startButton);
-    this.announcer.className += ' ' + "show";
-    game = this;
+    var Game = this;
+    var announcer = Game.announcer;
+    var countdown = Game.countdown;
 
-    this.announcer.innerHTML = '<span class="center countdown">' + (this.countdown.timeLeft / 1000)  + '</span>';
+    Game.reset();
+    Game.disableButton(Game.startButton);
+    announcer.className += ' ' + "show";
+    
+    announcer.innerHTML = '<span class="center countdown">' + (countdown.timeLeft / 1000)  + '</span>';
 
-    this.countdown.running = setInterval(function() {
-        game.runCountdown();
+    countdown.running = setInterval(function() {
+        Game.runCountdown();
     }, 1000);
 };
 
 Game.prototype.runCountdown = function() {   
-    this.countdown.timeLeft -= 1000; 
-    if (this.countdown.timeLeft === 0) {
-        this.announcer.innerHTML = '<span class="center countdown">Go!</span>';
-        this.start();
+    var timeLeft = this.countdown.timeLeft -= 1000;
+    var Game = this;
+    var announcer = Game.announcer;
+
+    if (timeLeft === 0) {
+        announcer.innerHTML = '<span class="center countdown">Go!</span>';
+        Game.start();
     } else {
-        this.announcer.innerHTML = '<span class="center countdown">' + (this.countdown.timeLeft / 1000)  + '</span>';
+        announcer.innerHTML = '<span class="center countdown">' + (timeLeft / 1000)  + '</span>';
     }
 
-    if (this.countdown.timeLeft === -1000) { 
-        this.stopCountdown();
+    if (timeLeft === -1000) { 
+        Game.stopCountdown();
     }
 };
 
 Game.prototype.stopCountdown = function() {
-    clearInterval(this.countdown.running);
-    Util.removeClass(this.announcer, "show");
-    this.announcer.innerHTML = "";
-    this.countdown.timeLeft = this.countdown.length;
-    console.log(this.countdown.timeLeft);
+    var Game = this;
+
+    clearInterval(Game.countdown.running);
+    Util.removeClass(Game.announcer, "show");
+    Game.announcer.innerHTML = "";
+    Game.countdown.timeLeft = Game.countdown.length;
 }
 
 Game.prototype.startClock = function() {
-    var game = this;
-    var infoPanel = game.clock.element.parentElement;
+    var Game = this;
+    var infoPanel = Game.clock.element.parentElement;
 
-    Util.removeClass(game.clock.timeElement, "clock-stop");
-    game.clock.timeElement.innerHTML = (game.clock.timeLimit / 1000) + "s";
+    Util.removeClass(Game.clock.timeElement, "clock-stop");
+    Game.clock.timeElement.innerHTML = (Game.clock.timeLimit / 1000) + "s";
 
     if ( Util.doesntHaveClass(infoPanel, "show") ) {
         infoPanel.className += ' ' + "show";
     }
 
-    this.clock.running = setInterval(function() {
-        game.runClock();
+    Game.clock.running = setInterval(function() {
+        Game.runClock();
     }, 1000);
 };
 
 Game.prototype.runClock = function() {
-    this.clock.timeLeft -= 1000;
-    this.clock.timeElement.innerHTML = "<span>" + (this.clock.timeLeft / 1000)  + "s</span>";
+    var Game = this;
+    var clock = Game.clock;
+
+    clock.timeLeft -= 1000;
+    clock.timeElement.innerHTML = "<span>" + (clock.timeLeft / 1000)  + "s</span>";
     
-    if (this.clock.timeLeft === 10000) {
-        this.clock.timeElement.className += " clock-warning";
+    if (clock.timeLeft === 10000) {
+        clock.timeElement.className += " clock-warning";
     }
 
-    if (this.clock.timeLeft === 0) {
-        this.stopClock();
-        this.gameOver();
+    if (clock.timeLeft === 0) {
+        Game.stopClock();
+        Game.gameOver();
     }
-
-    return false;
 };
 
 Game.prototype.stopClock = function() {
-    clearInterval(this.clock.running);
-    Util.removeClass(this.clock.timeElement, "clock-warning");
-    this.clock.timeElement.className += " clock-stop";
+    var clock = this.clock;
+
+    clearInterval(clock.running);
+    Util.removeClass(clock.timeElement, "clock-warning");
+    clock.timeElement.className += " clock-stop";
 }
 
 Game.prototype.gameOver = function() {
-    var player = this.player;
-    var npc = this.npc;
+    var Game = this;
+    var Player = Game.player;
+    var Npc = Game.npc;
 
-    player.stop();
-    npc.stop();
+    Player.stop();
+    Npc.stop();
     
-    player.updateScore();
-    npc.updateScore();
+    Player.updateScore();
+    Npc.updateScore();
 
-    var playerScore = player.currentScore();
-    var npcScore = npc.currentScore();
+    var playerScore = Player.currentScore();
+    var npcScore = Npc.currentScore();
 
     if (playerScore > npcScore) {
-        this.announcer.innerHTML = "You win!";
-        this.winner(this.player.character);
-        this.mouth("player-mouth", "smile");
-        this.mouth("npc-mouth", "frown");
+        Game.announcer.innerHTML = "You win!";
+        Game.winner(Game.player.character);
+        Game.mouth("player-mouth", "smile");
+        Game.mouth("npc-mouth", "frown");
     }
 
     if (playerScore < npcScore) {
-        this.announcer.innerHTML = "You lose!";
-        this.mouth("player-mouth", "frown");
-        this.winner(this.npc.character);
-        this.mouth("npc-mouth", "smile");
+        Game.announcer.innerHTML = "You lose!";
+        Game.mouth("player-mouth", "frown");
+        Game.winner(Game.npc.character);
+        Game.mouth("npc-mouth", "smile");
     }
 
     if (playerScore === npcScore) {
-        this.announcer.innerHTML = "It's a tie!";
+        Game.announcer.innerHTML = "It's a tie!";
     }
 
-    this.enableStartButton();
+    Game.enableStartButton();
 };
 
 Game.prototype.reset = function() {
-    this.resetCharacters();
-    this.resetBoard();
-    this.resetScore();
-    this.clock.timeLeft = this.clock.timeLimit;
-    this.clock.timeElement.innerHTML = (this.clock.timeLimit / 1000) + "s";
+    var Game = this;
+
+    Game.resetCharacters();
+    Game.resetBoard();
+    Game.resetScore();
+    Game.clock.timeLeft = Game.clock.timeLimit;
+    Game.clock.timeElement.innerHTML = (Game.clock.timeLimit / 1000) + "s";
 };
 
 Game.prototype.resetCharacters = function() {
-    this.winner(false);
-    this.mouth("player-mouth", false);
-    this.mouth("npc-mouth", false);
-    this.cells[0].appendChild(this.player.character.element);
-    this.cells[99].appendChild(this.npc.character.element);
+    var Game = this;
+
+    Game.winner(false);
+    Game.mouth("player-mouth", false);
+    Game.mouth("npc-mouth", false);
+    Game.cells[0].appendChild(Game.player.character.element);
+    Game.cells[99].appendChild(Game.npc.character.element);
 };
 
 Game.prototype.resetBoard = function() {
-    var numOfCells = this.cells.length;
+    var Game = this; 
+
+    var numOfCells = Game.cells.length;
     for (var i=0; i < numOfCells; i++) {
-        this.cells[i].className = "cell";
+        Game.cells[i].className = "cell";
     }
 
-    this.announcer.innerHTML = "";
+    Game.announcer.innerHTML = "";
 };
 
 Game.prototype.resetScore = function() {
-    this.player.updateScore();
-    this.npc.updateScore();
+    var Game = this;
+
+    Game.player.updateScore();
+    Game.npc.updateScore();
 };
 
 Game.prototype.winner = function(character) {
@@ -185,11 +208,11 @@ Game.prototype.winner = function(character) {
         for (var i=0; i < numOfCharacters; i++) {
             Util.removeClass(characters[i], "winner");
         }
+    } 
 
-        return true;
+    else {
+        character.element.className += " winner";
     }
-
-    character.element.className += " winner";
 }
 
 Game.prototype.mouth = function(mouth, emotion) {
@@ -201,24 +224,24 @@ Game.prototype.mouth = function(mouth, emotion) {
             Util.removeClass(mouths[i], "smile");
             Util.removeClass(mouths[i], "frown");
         }
+    } 
 
-        return true;
-    }
-
-    for (var i=0; i < numberOfMouths; i++) {
-        mouths[i].className += " " + emotion;
+    else {
+        for (var i=0; i < numberOfMouths; i++) {
+            mouths[i].className += " " + emotion;
+        }
     }
 };
 
 Game.prototype.enableStartButton = function(button) {
-    game = this;
-    startButton = this.startButton;
+    Game = this;
+    startButton = Game.startButton;
     Util.removeClass(startButton.element, "disabled");
 
     // == Add click event listener.
     startButton.handlers.push(
         EventHandler.addListener( "click", function() {
-            game.startCountdown();
+            Game.startCountdown();
         }, startButton.element)
     );
 
@@ -227,7 +250,7 @@ Game.prototype.enableStartButton = function(button) {
         EventHandler.addListener("keydown", function(e) {
             if (startButton.keys.indexOf(e.keyCode) > -1) {
                 e.preventDefault();
-                game.startCountdown();                    
+                Game.startCountdown();                    
             }
         }, window)
     );
