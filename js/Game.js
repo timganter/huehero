@@ -29,42 +29,6 @@ Game.prototype.init = function() {
     this.enableStartButton();
 }
 
-Game.prototype.enableStartButton = function(button) {
-    game = this;
-    startButton = this.startButton;
-    Util.removeClass(startButton.element, "disabled");
-
-    // == Add click event listener.
-    startButton.handlers.push(
-        EventHandler.addListener( "click", function() {
-            game.start();
-        }, startButton.element)
-    );
-
-    // Add keydown event listener.
-    startButton.handlers.push(
-        EventHandler.addListener("keydown", function(e) {
-            if (startButton.keys.indexOf(e.keyCode) > -1) {
-                e.preventDefault();
-                game.start();                    
-            }
-        }, window)
-    );
-
-};
-
-Game.prototype.disableButton = function(button) {
-    var startButton = this.startButton;
-    var numOfStartButtonHandlers = startButton.handlers.length;
-    
-    startButton.element.className += " disabled";
-    
-    // == Remove all startButton event listeners.
-    for(i=0; i < numOfStartButtonHandlers; i++) {
-        EventHandler.removeListener(startButton.handlers[i]);
-    }
-};
-
 Game.prototype.start = function() {
     this.reset();
     this.disableButton(this.startButton);
@@ -205,5 +169,41 @@ Game.prototype.mouth = function(mouth, emotion) {
 
     for (var i=0; i < numberOfMouths; i++) {
         mouths[i].className += " " + emotion;
+    }
+};
+
+Game.prototype.enableStartButton = function(button) {
+    game = this;
+    startButton = this.startButton;
+    Util.removeClass(startButton.element, "disabled");
+
+    // == Add click event listener.
+    startButton.handlers.push(
+        EventHandler.addListener( "click", function() {
+            game.start();
+        }, startButton.element)
+    );
+
+    // Add keydown event listener.
+    startButton.handlers.push(
+        EventHandler.addListener("keydown", function(e) {
+            if (startButton.keys.indexOf(e.keyCode) > -1) {
+                e.preventDefault();
+                game.start();                    
+            }
+        }, window)
+    );
+
+};
+
+Game.prototype.disableButton = function(button) {
+    var startButton = this.startButton;
+    var numOfStartButtonHandlers = startButton.handlers.length;
+    
+    startButton.element.className += " disabled";
+    
+    // == Remove all startButton event listeners.
+    for(i=0; i < numOfStartButtonHandlers; i++) {
+        EventHandler.removeListener(startButton.handlers[i]);
     }
 };
