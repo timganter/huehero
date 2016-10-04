@@ -22,7 +22,7 @@ var Util = function() {
 
         // == Get a random item from an array.
         randomItem: function(array) {
-            return array[Math.floor(Math.random() * array.length)];
+            return array[this.randomNumber(array.length)];
         },
 
         // == Remove a class from an element.
@@ -37,13 +37,17 @@ var Util = function() {
             var j, x, i;
 
             for (i = a.length; i; i--) {
-                j = Math.floor(Math.random() * i);
+                j = this.randomNumber(i);
                 x = a[i - 1];
                 a[i - 1] = a[j];
                 a[j] = x;
             }
 
             return a;
+        },
+
+        randomNumber: function(num) {
+            return Math.floor(Math.random() * num);
         }
     }
 }();
