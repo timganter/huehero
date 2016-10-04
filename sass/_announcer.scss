@@ -1,0 +1,25 @@
+.announcer {
+    z-index: 20;
+    width: 50%;
+    height: 50%;
+    display: none;
+    color: white;
+}
+
+.announcer.show {
+    display: block;
+}
+
+.announcer.frame {
+    background-color: rgba(black, 0.8);
+}
+
+.announcer .countdown {
+    animation: countdown 1s;
+    text-align: center;
+}
+
+@keyframes countdown {
+    0% { color: cyan; font-size: 20em; opacity: 1; }
+    100% { color: red; font-size: 0em; opacity: 0; }
+}

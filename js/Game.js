@@ -18,8 +18,14 @@ function Game(player, npc, timeLimit) {
         keys: [32, 13],
         handlers: []
     };
+    
+    this.countdown = {
+        length: 3000,
+        timeLeft: 3000,
+        running: null
+    }
 
-    this.winner = document.getElementById("winner");
+    this.announcer = document.getElementById("announcer");
 
     this.init();
 }
@@ -29,14 +35,46 @@ Game.prototype.init = function() {
     this.enableStartButton();
 }
 
-Game.prototype.start = function() {
-    this.reset();
-    this.disableButton(this.startButton);
+Game.prototype.start = function() {    
     this.startClock();
-
     this.player.play();
     this.npc.play();
 };
+
+Game.prototype.startCountdown = function() {
+    this.reset();
+    this.disableButton(this.startButton);
+    this.announcer.className += ' ' + "show";
+    game = this;
+
+    this.announcer.innerHTML = '<span class="center countdown">' + (this.countdown.timeLeft / 1000)  + '</span>';
+
+    this.countdown.running = setInterval(function() {
+        game.runCountdown();
+    }, 1000);
+};
+
+Game.prototype.runCountdown = function() {   
+    this.countdown.timeLeft -= 1000; 
+    if (this.countdown.timeLeft === 0) { 
+        this.announcer.innerHTML = '<span class="center countdown">Go!</span>';
+        this.start();
+    } else {
+        this.announcer.innerHTML = '<span class="center countdown">' + (this.countdown.timeLeft / 1000)  + '</span>';
+    }
+
+    if (this.countdown.timeLeft === -1000) { 
+        this.stopCountdown();
+    }
+};
+
+Game.prototype.stopCountdown = function() {
+    clearInterval(this.countdown.running);
+    Util.removeClass(this.announcer, "show");
+    this.announcer.innerHTML = "";
+    this.countdown.timeLeft = this.countdown.length;
+    console.log(this.countdown.timeLeft);
+}
 
 Game.prototype.startClock = function() {
     var game = this;
@@ -58,7 +96,6 @@ Game.prototype.runClock = function() {
     this.clock.timeLeft -= 1000;
     this.clock.timeElement.innerHTML = "<span>" + (this.clock.timeLeft / 1000)  + "s</span>";
     
-
     if (this.clock.timeLeft === 10000) {
         this.clock.timeElement.className += " clock-warning";
     }
@@ -91,21 +128,21 @@ Game.prototype.gameOver = function() {
     var npcScore = npc.currentScore();
 
     if (playerScore > npcScore) {
-        this.winner.innerHTML = "You win!";
-        this.winningCharacter(this.player.character);
+        this.announcer.innerHTML = "You win!";
+        this.winner(this.player.character);
         this.mouth("player-mouth", "smile");
         this.mouth("npc-mouth", "frown");
     }
 
     if (playerScore < npcScore) {
-        this.winner.innerHTML = "You lose!";
+        this.announcer.innerHTML = "You lose!";
         this.mouth("player-mouth", "frown");
-        this.winningCharacter(this.npc.character);
+        this.winner(this.npc.character);
         this.mouth("npc-mouth", "smile");
     }
 
     if (playerScore === npcScore) {
-        this.winner.innerHTML = "It's a tie!";
+        this.announcer.innerHTML = "It's a tie!";
     }
 
     this.enableStartButton();
@@ -120,7 +157,7 @@ Game.prototype.reset = function() {
 };
 
 Game.prototype.resetCharacters = function() {
-    this.winningCharacter(false);
+    this.winner(false);
     this.mouth("player-mouth", false);
     this.mouth("npc-mouth", false);
     this.cells[0].appendChild(this.player.character.element);
@@ -132,15 +169,16 @@ Game.prototype.resetBoard = function() {
     for (var i=0; i < numOfCells; i++) {
         this.cells[i].className = "cell";
     }
+
+    this.announcer.innerHTML = "";
 };
 
 Game.prototype.resetScore = function() {
     this.player.updateScore();
     this.npc.updateScore();
-    this.winner.innerHTML = "";
 };
 
-Game.prototype.winningCharacter = function(character) {
+Game.prototype.winner = function(character) {
     if (character === false) {
         var characters = document.getElementsByClassName("character");
         var numOfCharacters = characters.length;
@@ -180,7 +218,7 @@ Game.prototype.enableStartButton = function(button) {
     // == Add click event listener.
     startButton.handlers.push(
         EventHandler.addListener( "click", function() {
-            game.start();
+            game.startCountdown();
         }, startButton.element)
     );
 
@@ -189,7 +227,7 @@ Game.prototype.enableStartButton = function(button) {
         EventHandler.addListener("keydown", function(e) {
             if (startButton.keys.indexOf(e.keyCode) > -1) {
                 e.preventDefault();
-                game.start();                    
+                game.startCountdown();                    
             }
         }, window)
     );
