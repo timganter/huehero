@@ -1,0 +1,16 @@
+.space {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    animation: spectrum 90s infinite;
+}
+
+@keyframes spectrum {
+    0%  { background-color: black; }
+    16% { background-color: #360529; }
+    32% { background-color: #050D36; }
+    48% { background-color: #0C2101; }
+    64% { background-color: #031F26; }
+    100% { background-color: black; }
+}

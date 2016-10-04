@@ -1,6 +1,7 @@
 function Game(player, npc, timeLimit) {
     this.player = new Player(new Character(player));
     this.npc = new Npc(new Character(npc));
+    this.space = new Space();
 
     this.cells = document.getElementsByClassName("cell");
     
@@ -20,6 +21,11 @@ function Game(player, npc, timeLimit) {
 
     this.winner = document.getElementById("winner");
 
+    this.init();
+}
+
+Game.prototype.init = function() {
+    this.space.make();
     this.enableStartButton();
 }
 
