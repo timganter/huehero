@@ -45,7 +45,7 @@ gulp.task('publish-js', function() {
                     'js/Game.js'
                 ])
                .pipe(concat('game.min.js'))
-               // .pipe(uglify())
+               .pipe(uglify())
                .pipe(gulp.dest('public/js'))
                .pipe(notify({ message: 'Scripts published.' }));
 });
