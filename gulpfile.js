@@ -42,6 +42,7 @@ gulp.task('publish-js', function() {
                     'js/Character.js',
                     'js/Player.js',
                     'js/Npc.js',
+                    'js/Clock.js',
                     'js/Game.js'
                 ])
                .pipe(concat('game.min.js'))
