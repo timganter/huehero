@@ -15,10 +15,7 @@ function Clock(clockElement, timeLimit, increment, stopAt, stopAction, suffix, w
 
 Clock.prototype.start = function() {
     var Clock = this;
-
-    // == Initiate clock.
-    Clock.element.innerHTML = "<span class=\"clock-time\">" + (Clock.timeLimit / Clock.increment) + Clock.suffix + "</span>";
-
+    
     Clock.running = setInterval(function() {
         Clock.runClock();
     }, Clock.increment);

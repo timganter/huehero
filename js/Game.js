@@ -25,8 +25,6 @@ Game.prototype.start = function() {
     var announcer = Game.announcer;
     var infoPanel = Game.clock.element.parentElement.parentElement;
     
-    Util.removeClass(Game.clock.element, "clock-stop");
-
     if ( Util.doesntHaveClass(infoPanel, "show") ) {
         infoPanel.className += ' ' + "show";
     }
@@ -43,6 +41,7 @@ Game.prototype.start = function() {
 Game.prototype.go = function() {
     var Game = this;
     
+    Util.removeClass(Game.clock.element, "clock-stop");
     Game.announcer.innerHTML = '<span class="clock-time">GO!</span>';
     Game.play();
 };
