@@ -1,37 +1,20 @@
 function Game(player, npc, timeLimit) {
-    this.player = new Player(new Character(player));
-    this.npc = new Npc(new Character(npc));
-    this.space = new Space();
+    var Game = this;
 
-    this.cells = document.getElementsByClassName("cell");
-    
-    this.clock = {
-        element: document.getElementById("clock"),
-        timeElement: document.getElementById("clockTime"),
-        timeLimit: timeLimit,
-        timeLeft: timeLimit,
-        running: null
-    }
+    Game.player = new Player(new Character(player));
+    Game.npc = new Npc(new Character(npc));
+    Game.space = new Space();
+    Game.cells = document.getElementsByClassName("cell");
 
-    this.startButton = {
+    Game.startButton = {
         element: document.getElementById("start-button"),
         keys: [32, 13],
         handlers: []
     };
     
-    this.countdown = {
-        length: 3000,
-        timeLeft: 3000,
-        running: null
-    }
-
-    this.announcer = document.getElementById("announcer");
-
-    this.init();
-}
-
-Game.prototype.init = function() {
-    var Game = this;
+    Game.clock = new Clock("clock", timeLimit, 1000, 0, function(){Game.gameOver()}, "s", 10000);
+    Game.countdown = new Clock("announcer", 3000, 1000, -1000, function(){Game.clearCountdown()}, "", "", function(){Game.go()});
+    Game.announcer = document.getElementById("announcer");
 
     Game.space.make();
     Game.enableStartButton();
@@ -39,99 +22,53 @@ Game.prototype.init = function() {
 
 Game.prototype.start = function() {    
     var Game = this;
-
-    Game.startClock();
-    Game.player.play();
-    Game.npc.play();
-};
-
-Game.prototype.startCountdown = function() {
-    var Game = this;
     var announcer = Game.announcer;
-    var countdown = Game.countdown;
-
-    Game.reset();
-    Game.disableButton(Game.startButton);
-    announcer.className += ' ' + "show";
+    var infoPanel = Game.clock.element.parentElement.parentElement;
     
-    announcer.innerHTML = '<span class="center countdown">' + (countdown.timeLeft / 1000)  + '</span>';
-
-    countdown.running = setInterval(function() {
-        Game.runCountdown();
-    }, 1000);
-};
-
-Game.prototype.runCountdown = function() {   
-    var timeLeft = this.countdown.timeLeft -= 1000;
-    var Game = this;
-    var announcer = Game.announcer;
-
-    if (timeLeft === 0) {
-        announcer.innerHTML = '<span class="center countdown">Go!</span>';
-        Game.start();
-    } else {
-        announcer.innerHTML = '<span class="center countdown">' + (timeLeft / 1000)  + '</span>';
-    }
-
-    if (timeLeft === -1000) { 
-        Game.stopCountdown();
-    }
-};
-
-Game.prototype.stopCountdown = function() {
-    var Game = this;
-
-    clearInterval(Game.countdown.running);
-    Util.removeClass(Game.announcer, "show");
-    Game.announcer.innerHTML = "";
-    Game.countdown.timeLeft = Game.countdown.length;
-}
-
-Game.prototype.startClock = function() {
-    var Game = this;
-    var infoPanel = Game.clock.element.parentElement;
-
-    Util.removeClass(Game.clock.timeElement, "clock-stop");
-    Game.clock.timeElement.innerHTML = (Game.clock.timeLimit / 1000) + "s";
+    Util.removeClass(Game.clock.element, "clock-stop");
 
     if ( Util.doesntHaveClass(infoPanel, "show") ) {
         infoPanel.className += ' ' + "show";
     }
 
-    Game.clock.running = setInterval(function() {
-        Game.runClock();
-    }, 1000);
-};
-
-Game.prototype.runClock = function() {
-    var Game = this;
-    var clock = Game.clock;
-
-    clock.timeLeft -= 1000;
-    clock.timeElement.innerHTML = "<span>" + (clock.timeLeft / 1000)  + "s</span>";
+    Game.reset();
+    Game.disableButton(Game.startButton);
     
-    if (clock.timeLeft === 10000) {
-        clock.timeElement.className += " clock-warning";
-    }
+    announcer.className += ' ' + "show";
+    announcer.innerHTML = '<span class="clock-time">' + (Game.countdown.timeLimit / Game.countdown.increment)  + '</span>';
 
-    if (clock.timeLeft === 0) {
-        Game.stopClock();
-        Game.gameOver();
-    }
+    Game.countdown.start();
 };
 
-Game.prototype.stopClock = function() {
-    var clock = this.clock;
+Game.prototype.go = function() {
+    var Game = this;
+    
+    Game.announcer.innerHTML = '<span class="clock-time">GO!</span>';
+    Game.play();
+};
 
-    clearInterval(clock.running);
-    Util.removeClass(clock.timeElement, "clock-warning");
-    clock.timeElement.className += " clock-stop";
+Game.prototype.clearCountdown = function () {
+    var Game = this;
+
+    Util.removeClass(Game.announcer, "show");
+    Util.removeClass(Game.announcer, "clock-stop");
+    Game.announcer.innerHTML = "";
 }
+
+Game.prototype.play = function() {
+    var Game = this;
+    
+    Game.clock.start();
+    Game.player.play();
+    Game.npc.play();
+};
 
 Game.prototype.gameOver = function() {
     var Game = this;
     var Player = Game.player;
     var Npc = Game.npc;
+
+    Game.announcer.className += " frame show";
 
     Player.stop();
     Npc.stop();
@@ -143,14 +80,14 @@ Game.prototype.gameOver = function() {
     var npcScore = Npc.currentScore();
 
     if (playerScore > npcScore) {
-        Game.announcer.innerHTML = "You win!";
+        Game.announcer.innerHTML = '<div class="center announce-won">You win! =)</div>';
         Game.winner(Game.player.character);
         Game.mouth("player-mouth", "smile");
         Game.mouth("npc-mouth", "frown");
     }
 
     if (playerScore < npcScore) {
-        Game.announcer.innerHTML = "You lose!";
+        Game.announcer.innerHTML = '<div class="center announce-lost">You lose! =(</div>';
         Game.mouth("player-mouth", "frown");
         Game.winner(Game.npc.character);
         Game.mouth("npc-mouth", "smile");
@@ -169,8 +106,9 @@ Game.prototype.reset = function() {
     Game.resetCharacters();
     Game.resetBoard();
     Game.resetScore();
+    Util.removeClass(announcer, "frame");
     Game.clock.timeLeft = Game.clock.timeLimit;
-    Game.clock.timeElement.innerHTML = (Game.clock.timeLimit / 1000) + "s";
+    Game.clock.element.innerHTML = (Game.clock.timeLimit / 1000) + "s";
 };
 
 Game.prototype.resetCharacters = function() {
@@ -241,7 +179,7 @@ Game.prototype.enableStartButton = function(button) {
     // == Add click event listener.
     startButton.handlers.push(
         EventHandler.addListener( "click", function() {
-            Game.startCountdown();
+            Game.start();
         }, startButton.element)
     );
 
@@ -250,7 +188,7 @@ Game.prototype.enableStartButton = function(button) {
         EventHandler.addListener("keydown", function(e) {
             if (startButton.keys.indexOf(e.keyCode) > -1) {
                 e.preventDefault();
-                Game.startCountdown();                    
+                Game.start();
             }
         }, window)
     );

@@ -19,7 +19,7 @@
             Game clock
 ------------------------------------ */
 
-.clock {
+.clock-wrap {
     width: 100%;
     text-align: center;
     background: SeaGreen;
@@ -34,17 +34,17 @@
     background: Maroon;
 }
 
-.clock-time {
+.clock {
     padding: 0.5em 1em;
     overflow: hidden;
 }
 
-.clock-time span {
+.clock span {
     display: inline-block;
     animation: clock-time 1s;
 }
 
-@keyframes clock-time {
+@keyframes clock {
     0% { opacity: 0; transform: translate(0, -100%); }
     50% { opacity: 1; transform: translate(0, 0); }
     100% { opacity: 0; transform: translate(0, 100%); }

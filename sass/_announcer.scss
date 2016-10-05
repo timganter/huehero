@@ -1,7 +1,7 @@
 .announcer {
     z-index: 20;
-    width: 50%;
-    height: 50%;
+    width: 40%;
+    height: 40%;
     display: none;
     color: white;
 }
@@ -11,15 +11,45 @@
 }
 
 .announcer.frame {
-    background-color: rgba(black, 0.8);
+    
 }
 
-.announcer .countdown {
+.announcer .clock-time {
+    @include center;
     animation: countdown 1s;
     text-align: center;
+}
+
+.announce-won, 
+.announce-lost {
+    width: 100%;
+    font-size: 4em;
+    text-align: center;
+}
+
+.announce-won {
+    color: $player-color;
+    animation: announce-won 4.5s ease-out;
+    text-shadow: 1px 1px 1px black;
+}
+
+.announce-lost {
+    color: red;
+    animation: announce-lost 4.5s ease-out;
+    opacity: 0;
 }
 
 @keyframes countdown {
     0% { color: cyan; font-size: 20em; opacity: 1; }
     100% { color: red; font-size: 0em; opacity: 0; }
+}
+
+@keyframes announce-lost {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(5); opacity: 0; }
+}
+
+@keyframes announce-won {
+    0% { transform: translate(-50%, -50%) scale(5); opacity: 0; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 }

@@ -8,7 +8,7 @@ function Space() {
     this.numberOfGalaxies = 15;
     this.maxGalaxySize = { xRad: 150, yRad: 100 };
     this.maxStarSize = 2;
-    this.numberOfStars = 4000;
+    this.numberOfStars = 6000;
 }
 
 Space.prototype.make = function() {
