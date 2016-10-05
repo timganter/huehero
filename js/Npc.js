@@ -3,7 +3,7 @@ function Npc(Character) {
     this.vector = new Vector;
     this.arrowKeys = [38, 39, 40, 37];
 
-    this.speed = 115; // == in milliseconds
+    this.speed = 116; // == in milliseconds
     this.score = document.getElementById("npc-score");
     this.playing = null;
 }
@@ -20,7 +20,6 @@ Npc.prototype.play = function() {
 
 Npc.prototype.move = function() {
     var Npc = this;
-
     var direction = Npc.look(Npc.character.element);
 
     if (direction === false) {
@@ -36,9 +35,10 @@ Npc.prototype.look = function(element) {
     var Npc = this;
     var numOfDirections = Npc.arrowKeys.length;
     var arrowKeys = Util.shuffleArray(Npc.arrowKeys);
+    var isPaintable;
 
     for(var i=0; i < numOfDirections; i++) {
-        var isPaintable = Npc.isPaintable(element, arrowKeys[i]);
+        isPaintable = Npc.isPaintable(element, arrowKeys[i]);
 
         if (isPaintable) {
             return arrowKeys[i];
@@ -58,7 +58,6 @@ Npc.prototype.isPaintable = function(currentLocationElement, direction) {
     }
 
     return false;
-
 };
 
 Npc.prototype.getVector = function(currentVector, direction) {

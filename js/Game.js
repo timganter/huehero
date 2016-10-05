@@ -112,20 +112,23 @@ Game.prototype.reset = function() {
 
 Game.prototype.resetCharacters = function() {
     var Game = this;
+    var playerElement = Game.player.character.element;
+    var npcElement = Game.npc.character.element;
 
     Game.winner(false);
     Game.mouth("player-mouth", false);
     Game.mouth("npc-mouth", false);
-    Game.cells[0].appendChild(Game.player.character.element);
-    Game.cells[99].appendChild(Game.npc.character.element);
+    Game.cells[0].appendChild(playerElement);
+    Game.cells[99].appendChild(npcElement);
 };
 
 Game.prototype.resetBoard = function() {
     var Game = this; 
-
     var numOfCells = Game.cells.length;
+    var cells = Game.cells;
+
     for (var i=0; i < numOfCells; i++) {
-        Game.cells[i].className = "cell";
+        cells[i].className = "cell";
     }
 
     Game.announcer.innerHTML = "";

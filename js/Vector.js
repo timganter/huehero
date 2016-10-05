@@ -13,9 +13,6 @@ Vector.prototype.north = function() {
     if (previousRow) {
         return previousRow.children[vectorIndex];    
     }
-
-    // == First row.
-    return null;
 }
 
 Vector.prototype.east = function() {
@@ -34,9 +31,6 @@ Vector.prototype.south = function() {
     if (nextRow) {
         return nextRow.children[vectorIndex];    
     }
-
-    // == Last row.
-    return null;
 }
 
 Vector.prototype.west = function() {

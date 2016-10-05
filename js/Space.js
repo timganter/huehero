@@ -4,11 +4,11 @@ function Space() {
     this.canvas.height = window.innerHeight;
     this.ctx = this.canvas.getContext("2d");
     
-    this.starsPerGalaxy = 250;
-    this.numberOfGalaxies = 15;
-    this.maxGalaxySize = { xRad: 150, yRad: 100 };
+    this.starsPerGalaxy = 200;
+    this.numberOfGalaxies = 20;
+    this.galaxySizes = [100, 150, 200, 250, 300];
     this.maxStarSize = 2;
-    this.numberOfStars = 6000;
+    this.numberOfStars = 2000;
 }
 
 Space.prototype.make = function() {
@@ -29,16 +29,16 @@ Space.prototype.star = function(x, y) {
     var Space = this;
     var ctx = Space.ctx;
     var canvas = Space.canvas;
-
     var r = Util.randomNumber(Space.maxStarSize);
+    var x = x;  
+    var y = y;
 
-    if (x) {
-        var x = Util.randomNumber(canvas.width);    
-    }
+    if (x === undefined) {
+        x = Util.randomNumber(canvas.width);    
+    } 
 
-    if (y) {
-        var y = Util.randomNumber(canvas.height);
-        ctx.beginPath();
+    if (y === undefined) {
+        y = Util.randomNumber(canvas.height);
     }
 
     ctx.fillStyle = "rgba(255, 255, 255," + 1 / Util.randomNumber(10) + ")";
@@ -52,29 +52,28 @@ Space.prototype.galaxy = function() {
     var Space = this;
     var x = Util.randomNumber(Space.canvas.width);
     var y = Util.randomNumber(Space.canvas.height);
-    var xRad = Util.randomNumber(Space.maxGalaxySize.xRad);
-    var yRad = Util.randomNumber(Space.maxGalaxySize.yRad);
 
-    Space.galaxyStars(x, y, xRad, yRad);
+    Space.galaxyStars(x, y);
 };
 
-Space.prototype.galaxyStars = function(x, y, xRad, yRad) {
+Space.prototype.galaxyStars = function(x, y) {
     var Space = this;
     var ctx = Space.ctx;
     var xGalaxyCenter = x;
     var yGalaxyCenter = y;
-    var xAmount, yAmount;
+    var galaxySize = Util.randomItem(Space.galaxySizes);
+    var xPos, yPos;
     
     for(var i=0; i < Space.starsPerGalaxy; i++) {
-        xAmount = Util.randomNumber(xRad);
+        xAmount = Util.randomNumber(galaxySize);
         if (Util.randomNumber(2) === 0) { xAmount = -Math.abs(xAmount); }
-        x = (xGalaxyCenter + xAmount * yRad / yAmount) / Math.tan(xRad);
-        
-        yAmount = Util.randomNumber(yRad);
+        xPos = xGalaxyCenter + xAmount * Math.LN10;
+
+        yAmount = Util.randomNumber(galaxySize);
         if (Util.randomNumber(2) === 0) { yAmount = -Math.abs(yAmount); }
-        y = (yGalaxyCenter + yAmount * xRad / xAmount) / Math.tan(yRad);
+        yPos = yGalaxyCenter + yAmount + Math.LN10;
         
-        ctx.moveTo(x, y);
-        Space.star(x, y);
+        ctx.moveTo(xPos, yPos);
+        Space.star(xPos, yPos);
     }
 };
