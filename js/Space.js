@@ -25,18 +25,18 @@ Space.prototype.make = function() {
     }
 };
 
-Space.prototype.star = function(x=null, y=null) {
+Space.prototype.star = function(x, y) {
     var Space = this;
     var ctx = Space.ctx;
     var canvas = Space.canvas;
 
     var r = Util.randomNumber(Space.maxStarSize);
 
-    if (x === null) {
+    if (x) {
         var x = Util.randomNumber(canvas.width);    
     }
 
-    if (y === null) {
+    if (y) {
         var y = Util.randomNumber(canvas.height);
         ctx.beginPath();
     }
