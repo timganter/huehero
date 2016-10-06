@@ -1,17 +1,12 @@
 .announcer {
     z-index: 20;
-    width: 40%;
+    width: 90%;
     height: 40%;
     display: none;
-    color: white;
 }
 
 .announcer.show {
     display: block;
-}
-
-.announcer.frame {
-    
 }
 
 .announcer .clock-time {
@@ -52,4 +47,19 @@
 @keyframes announce-won {
     0% { transform: translate(-50%, -50%) scale(5); opacity: 0; }
     100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* ----------------------------------------------------------------------------
+                                Responsive
+---------------------------------------------------------------------------- */
+
+@media all and (max-width: 1000px) {
+    .announcer {
+        width: 90%;
+    }
+
+    .announce-won, 
+    .announce-lost {
+        font-size: 3em;
+    }
 }

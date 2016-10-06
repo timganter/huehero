@@ -5,3 +5,10 @@ $npc-color: #8FC1FF;
 $npc-painted: DodgerBlue;
 
 $board-color: #C90515;
+
+$transition-duration: 0.3s;
+
+// == Convert pixels to ems based of context provided
+@function pxtoem($target-px, $context) {
+    @return ($target-px / $context) * 1em;
+}

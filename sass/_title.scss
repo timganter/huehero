@@ -1,0 +1,27 @@
+.title {
+    text-align: center;
+    color: $player-color;
+}
+
+h1 {
+    font-size: 3em;
+    line-height: 1em;
+    margin-bottom: 0;
+}
+
+.credits {
+    font-size: 0.82em;
+    color: $player-color;
+        
+    span { opacity: 0.5; }
+
+    a {
+        transition-duration: $transition-duration;
+        opacity: 0.5;
+        color: $player-color;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}

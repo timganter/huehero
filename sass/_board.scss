@@ -1,15 +1,10 @@
-.game {
-    float: left;
-    width: 80%;
-    margin-top: 2em;
-    position: relative;
-}
-
 .board {
+    position: relative;
     background: linear-gradient(270deg, $board-color, Black, $board-color);
     background-size: 400% 400%;
     animation: pulse 7s infinite;
     width: 40%;
+    max-width: 600px;
     margin: 0 auto;
     box-shadow: 0px 0px 400px 200px rgba(cyan, 0.2);
 }
@@ -50,4 +45,20 @@
     content:'';
     float:left;
     padding-top:100%;
+}
+
+/* ----------------------------------------------------------------------------
+                                Responsive
+---------------------------------------------------------------------------- */
+
+@media all and (max-width: 1000px) {
+    .board {
+        width: 400px;
+    }
+}
+
+@media all and (max-width: 480px) {
+    .board {
+        width: 90%;
+    }
 }

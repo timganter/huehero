@@ -1,0 +1,22 @@
+.instructions {
+    color: cyan;
+    margin: 1.2em 0 2em 0;
+    line-height: 1em;
+    opacity: 0.75;
+}
+
+.instructions-desktop {}
+
+.instructions-mobile {
+    display: none;
+    font-size: 1.3em;
+    margin: 1em 0;
+    font-weight: bold;
+    
+    p { margin: 0; }
+}
+
+@media all and (max-width: 480px) {
+    .instructions-desktop { display: none; }
+    .instructions-mobile { display: block; }
+}
