@@ -1,12 +1,14 @@
-function Clock(clockElement, timeLimit, increment, stopAt, stopAction, suffix, warning, beforeStopAction ) {
+function Clock(clockElement, timeLimit, increment, stopAt, stopAction, suffix, warning, warningAction, beforeStopAction ) {
     this.element = document.getElementById(clockElement);
     this.timeLimit = timeLimit;
     this.increment = increment;
     this.stopAt = stopAt;
+    this.stopAction = stopAction;
     this.suffix = suffix;
     this.warning = warning;
-    this.stopAction = stopAction;
+    this.warningAction = warningAction;
     this.beforeStopAction = beforeStopAction;
+
     this.beforeStopAt = stopAt + increment;
     this.running;
 
@@ -30,6 +32,10 @@ Clock.prototype.runClock = function() {
     // == Apply a warning CSS class to the clock.
     if (Clock.timeLeft === Clock.warning) {
         Clock.element.className += " clock-warning";
+        
+        if (typeof Clock.warningAction === "function") {
+            Clock.warningAction();
+        }
     }
 
     // == Callback to execute one increment before clock stops.

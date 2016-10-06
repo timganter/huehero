@@ -4,6 +4,7 @@ function Game(player, npc, timeLimit) {
     Game.player = new Player(new Character(player));
     Game.npc = new Npc(new Character(npc));
     Game.space = new Space();
+    Game.audio = new Audio();
     Game.cells = document.getElementsByClassName("cell");
 
     Game.startButton = {
@@ -12,18 +13,22 @@ function Game(player, npc, timeLimit) {
         handlers: []
     };
     
-    Game.clock = new Clock("clock", timeLimit, 1000, 0, function(){Game.gameOver()}, "s", 10000);
-    Game.countdown = new Clock("announcer", 3000, 1000, -1000, function(){Game.clearCountdown()}, "", "", function(){Game.go()});
+    Game.clock = new Clock("clock", timeLimit, 1000, 0, function(){Game.gameOver()}, "s", 10000, function(){Game.timeAlmostUp()});
+    Game.countdown = new Clock("announcer", 3000, 1000, -1000, function(){Game.clearCountdown()}, "", "", "", function(){Game.go()});
     Game.announcer = document.getElementById("announcer");
 
     Game.space.make();
     Game.enableStartButton();
+    Game.audio.title.play();
 }
 
 Game.prototype.start = function() {    
     var Game = this;
     var announcer = Game.announcer;
     var infoPanel = Game.clock.element.parentElement.parentElement;
+    var audio = Game.audio;
+    
+    audio.playGame();
     
     if ( Util.doesntHaveClass(infoPanel, "show") ) {
         infoPanel.className += ' ' + "show";
@@ -62,6 +67,14 @@ Game.prototype.play = function() {
     Game.npc.play();
 };
 
+Game.prototype.timeAlmostUp = function() {
+    var audio = Game.audio;
+
+    audio.gamePlay.pause();
+    audio.gamePlay.currentTime = 0;
+    audio.gamePlayFast.play();
+}
+
 Game.prototype.gameOver = function() {
     var Game = this;
     var Player = Game.player;
@@ -78,11 +91,17 @@ Game.prototype.gameOver = function() {
     var playerScore = Player.currentScore();
     var npcScore = Npc.currentScore();
 
+    var audio = Game.audio;
+
+    audio.gamePlayFast.pause();
+    audio.gamePlayFast.currentTime = 0;
+
     if (playerScore > npcScore) {
         Game.announcer.innerHTML = '<div class="center announce-won">You win! =)</div>';
         Game.winner(Game.player.character);
         Game.mouth("player-mouth", "smile");
         Game.mouth("npc-mouth", "frown");
+        audio.youWin.play();
     }
 
     if (playerScore < npcScore) {
@@ -90,6 +109,7 @@ Game.prototype.gameOver = function() {
         Game.mouth("player-mouth", "frown");
         Game.winner(Game.npc.character);
         Game.mouth("npc-mouth", "smile");
+        audio.youLose.play();
     }
 
     if (playerScore === npcScore) {

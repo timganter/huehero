@@ -36,6 +36,7 @@ gulp.task('publish-js', function() {
                     'js/Util.js',
                     'js/EventHandler.js',
                     'js/Space.js',
+                    'js/Audio.js',
                     'js/Vector.js',
                     'js/Move.js',
                     'js/Painter.js',
