@@ -1,14 +1,18 @@
 function Space() {
-    this.canvas = document.getElementById("space");
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
-    this.ctx = this.canvas.getContext("2d");
+    var Space = this;
+
+    Space.canvas = document.getElementById("space");
+    Space.canvas.width = window.innerWidth;
+    Space.canvas.height = window.innerHeight;
+    Space.ctx = Space.canvas.getContext("2d");
     
-    this.starsPerGalaxy = 200;
-    this.numberOfGalaxies = 20;
-    this.galaxySizes = [100, 150, 200, 250, 300];
-    this.maxStarSize = 2;
-    this.numberOfStars = 2000;
+    Space.starsPerGalaxy = 200;
+    Space.numberOfGalaxies = 20;
+    Space.galaxySizes = [100, 150, 200, 250, 300];
+    Space.maxStarSize = 2;
+    Space.numberOfStars = 2000;
+
+    Space.setListeners();
 }
 
 Space.prototype.make = function() {
@@ -76,4 +80,17 @@ Space.prototype.galaxyStars = function(x, y) {
         ctx.moveTo(xPos, yPos);
         Space.star(xPos, yPos);
     }
+};
+
+Space.prototype.setListeners = function() {
+    var Space = this;
+    
+    // == Regenerate space on resize.
+    EventHandler.addListener("resize", function(e) {
+        Space.canvas.width = window.innerWidth;
+        Space.canvas.height = window.innerHeight;
+
+        Space.ctx.clearRect(0, 0, Space.canvas.width, Space.canvas.height);
+        Space.make();
+    }, window);
 };
