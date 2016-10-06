@@ -1,4 +1,5 @@
 /node_modules
+/public/media
 .DS_Store
 huehero.sublime-project
 huehero.sublime-workspace
