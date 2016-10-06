@@ -9,59 +9,54 @@ function Audio() {
     Audio.gameOver.loop = true;
     Audio.youLose = document.getElementById("audioYouLose");
     Audio.youWin = document.getElementById("audioYouWin");
-    Audio.handlers = [];
 
     Audio.setListeners();
 }
 
 Audio.prototype.setListeners = function() {
-    var audio = this;
+    var Audio = this;
     
     // == Start gameOver music after youLose.
-    // audio.handlers.push(
-        EventHandler.addListener("ended", function(e) {
-            audio.gameOver.play();
-            audio.reset();
-        }, audio.youLose);
-    // );
+    EventHandler.addListener("ended", function(e) {
+        Audio.gameOver.play();
+        Audio.reset();
+    }, Audio.youLose);
 
     // == Start gameOver music after youWin.
-    // audio.handlers.push(
-        EventHandler.addListener("ended", function(e) {
-            audio.gameOver.play();
-            audio.reset();
-            audio.youWin.currentTime = 0;
-        }, audio.youWin);
-    // );
+    EventHandler.addListener("ended", function(e) {
+        Audio.gameOver.play();
+        Audio.reset();
+        Audio.youWin.currentTime = 0;
+    }, Audio.youWin);
 };
 
 Audio.prototype.playGame = function() {
-    var audio = this;
+    var Audio = this;
 
-    audio.pauseAll();
-    audio.reset();
+    Audio.pauseAll();
+    Audio.reset();
 
-    audio.gamePlay.play();
+    Audio.gamePlay.play();
 };
 
 Audio.prototype.pauseAll = function() {
-    var audio = this;
+    var Audio = this;
 
-    audio.title.pause();
-    audio.gamePlay.pause();
-    audio.gamePlayFast.pause();
-    audio.gameOver.pause();
-    audio.youLose.pause();
-    audio.youWin.pause();
+    Audio.title.pause();
+    Audio.gamePlay.pause();
+    Audio.gamePlayFast.pause();
+    Audio.gameOver.pause();
+    Audio.youLose.pause();
+    Audio.youWin.pause();
 };
 
 Audio.prototype.reset = function() {
-    var audio = this; 
+    var Audio = this; 
 
-    audio.title.currentTime = 0;
-    audio.gamePlay.currentTime = 0;
-    audio.gamePlayFast.currentTime = 0;
-    audio.gameOver.currentTime = 0;
-    audio.youLose.currentTime = 0;
-    audio.youWin.currentTime = 0;
+    Audio.title.currentTime = 0;
+    Audio.gamePlay.currentTime = 0;
+    Audio.gamePlayFast.currentTime = 0;
+    Audio.gameOver.currentTime = 0;
+    Audio.youLose.currentTime = 0;
+    Audio.youWin.currentTime = 0;
 };
