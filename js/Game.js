@@ -113,7 +113,8 @@ Game.prototype.gameOver = function() {
     }
 
     if (playerScore === npcScore) {
-        Game.announcer.innerHTML = "It's a tie!";
+        Game.announcer.innerHTML = '<div class="center announce-tie">It\'s A Tie!</div>';
+        audio.youLose.play();
     }
 
     Game.enableStartButton();

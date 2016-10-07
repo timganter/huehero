@@ -16,7 +16,8 @@
 }
 
 .announce-won, 
-.announce-lost {
+.announce-lost,
+.announce-tie {
     width: 100%;
     font-size: 4em;
     text-align: center;
@@ -34,6 +35,11 @@
     opacity: 0;
 }
 
+.announce-tie {
+    color: cyan;
+    animation: announce-tie 4.5s ease-out;
+}
+
 @keyframes countdown {
     0% { color: cyan; font-size: 20em; opacity: 1; }
     100% { color: red; font-size: 0em; opacity: 0; }
@@ -45,6 +51,11 @@
 }
 
 @keyframes announce-won {
+    0% { transform: translate(-50%, -50%) scale(5); opacity: 0; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+@keyframes announce-tie {
     0% { transform: translate(-50%, -50%) scale(5); opacity: 0; }
     100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 }
