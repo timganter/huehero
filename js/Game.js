@@ -14,7 +14,7 @@ function Game(player, npc, timeLimit) {
     };
     
     Game.clock = new Clock("clock", timeLimit, 1000, 0, function(){Game.gameOver()}, "s", 10000, function(){Game.timeAlmostUp()});
-    Game.countdown = new Clock("announcer", 3000, 1000, -1000, function(){Game.clearCountdown()}, "", "", "", function(){Game.go()});
+    Game.countdown = new Clock("announcer", 2000, 1000, -1000, function(){Game.clearCountdown()}, "", "", "", function(){Game.go()});
     Game.announcer = document.getElementById("announcer");
 
     Game.space.make();
