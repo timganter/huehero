@@ -5,7 +5,11 @@
     opacity: 0.75;
 }
 
-.instructions-desktop {}
+.instructions-desktop {
+    span {
+        color: yellow;
+    }
+}
 
 .instructions-mobile {
     display: none;
