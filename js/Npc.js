@@ -3,7 +3,7 @@ function Npc(Character) {
     this.vector = new Vector;
     this.arrowKeys = [38, 39, 40, 37];
 
-    this.speed = 135; // == in milliseconds
+    this.speed = 160; // == in milliseconds
     this.score = document.getElementById("npc-score");
     this.playing = null;
 }
